@@ -4,10 +4,13 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "start":"electron .",
+    "start": "electron .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "author": "Hugo TABARY",
+  "license": "ISC",
+  "devDependencies": {
+    "eletron": "^0.0.1-security"
+  }
 }
