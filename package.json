@@ -1,16 +1,23 @@
 {
-  "name": "video-conferencing-software",
+  "name": "unichat",
   "version": "1.0.0",
-  "description": "",
+  "description": "Conference vision application to facilitate student group studies",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "test"
   },
-  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HugoTby/UniChat.git"
+  },
   "author": "Hugo TABARY",
-  "license": "ISC",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/HugoTby/UniChat/issues"
+  },
+  "homepage": "https://github.com/HugoTby/UniChat#readme",
   "devDependencies": {
-    "eletron": "^0.0.1-security"
+    "electron": "^24.2.0"
   }
 }
