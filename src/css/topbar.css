@@ -1,0 +1,128 @@
+html, body{
+    margin: 0;
+    padding: 0;
+    font-size: 10pt;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #949AA7;
+    background-color: #2C313C;
+    overflow-y: hidden;
+}
+/* APP BASE */
+.mainApp{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border: 1px solid #343B48;
+    -webkit-box-sizing: border-box;
+}
+.mainApp > .topBar {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 40%;
+    border-bottom: 3px solid #343B48;
+    background-color: #1B1D23;
+    -webkit-user-select: none;
+}
+.topBar > .titleBar{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+}
+.titleBar > .toggleButton{
+    width: 45px;
+    height: 40px;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    background-image: url('../icons/icon_menu.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    transition: 0.2s;
+    cursor: pointer;
+    padding-left: 40px;
+}
+.titleBar > .toggleButton:hover{
+    background-color: #272C36;
+}
+.titleBar > .toggleButton:active{
+    background-color: #343B48;
+    border-radius: 5px;
+}
+.titleBar > img{
+    margin-left: 10px;
+}
+.titleBar > .title{
+    margin-left: 10px;
+    width: 100%;
+    line-height: 30px;
+    margin-top: 5px;
+    padding-bottom: 5px;
+    -webkit-app-region: drag;
+}
+.topBar > .titleBarBtns{
+    display: flex;
+    flex-direction: row;
+    width: 120px;
+    height: 40px;
+    gap: 1em;
+    padding-top: 12px;
+    padding-right: 0px;
+}
+.titleBarBtns > .topBtn{
+    width: 20px;
+    height: 20px;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    transition: 0.2s;
+    cursor: pointer;
+}
+.titleBarBtns > .topBtn:hover{
+    background-color: #272C36;
+    border-radius: 5px;
+}
+.titleBarBtns > .topBtn:active{
+    background-color: #343B48;
+}
+.titleBarBtns > .closeBtn:active{
+    background-color: #E51414;
+}
+.titleBarBtns > .minimizeBtn{
+    background-image: url('../icons/icon_minimise.png');
+}
+.titleBarBtns > .maximizeBtn{
+    background-image: url('../icons/icon_maximise.png');
+}
+.titleBarBtns > .restoreBtn{
+    background-image: url('../icons/icon_restore.png');
+}
+.titleBarBtns > .closeBtn{
+    background-image: url('../icons/icon_close.png');
+}
+.mainApp > .contentArea{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+}
+.contentArea > .leftMenu{
+    width: 280px;
+    height: 100vh;
+    background-color: #272C36;
+    transition: 0.4s;
+}
+.contentArea > .contentPages{
+    width: 100%;
+    height: 100%;
+    -webkit-box-align: center;
+    -webkit-box-pack: center;
+    display: -webkit-box;
+}
