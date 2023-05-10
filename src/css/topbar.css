@@ -6,6 +6,7 @@ html, body{
     color: #949AA7;
     background-color: #2C313C;
     overflow-y: hidden;
+    user-select: none;
 }
 /* APP BASE */
 .mainApp{
@@ -15,7 +16,7 @@ html, body{
     width: 100%;
     height: 100%;
     overflow: hidden;
-    border: 1px solid #343B48;
+    /* border: 1px solid #343B48; */
     -webkit-box-sizing: border-box;
 }
 .mainApp > .topBar {
@@ -95,17 +96,20 @@ html, body{
 .titleBarBtns > .closeBtn:active{
     background-color: #E51414;
 }
+.titleBarBtns > .closeBtn:hover{
+    background-color: #E51414;
+}
 .titleBarBtns > .minimizeBtn{
-    background-image: url('../icons/icon_minimise.png');
+    background-image: url('../icons/icon_minimisebis.png');
 }
 .titleBarBtns > .maximizeBtn{
-    background-image: url('../icons/icon_maximise.png');
+    background-image: url('../icons/icon_maximisebis.png');
 }
 .titleBarBtns > .restoreBtn{
-    background-image: url('../icons/icon_restore.png');
+    background-image: url('../icons/icon_restorebis.png');
 }
 .titleBarBtns > .closeBtn{
-    background-image: url('../icons/icon_close.png');
+    background-image: url('../icons/icon_closebis.png');
 }
 .mainApp > .contentArea{
     display: flex;
@@ -126,3 +130,109 @@ html, body{
     -webkit-box-pack: center;
     display: -webkit-box;
 }
+
+
+.footerButtons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .footerButtons button {
+    margin: 0 10px; /* Ajoute une marge entre les boutons si nécessaire */
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+    border-radius: 5px;
+  }
+
+
+
+
+  .hidden {
+    display: none;
+    width: 100%;
+  }
+  
+  .visible {
+    display: block;
+    width: 100%;
+  }
+  
+
+
+
+  
+  
+/** Server status css **/
+.server-status {
+    
+    top: 28px;
+    margin-left: 0px;
+    margin-top: -5px;
+    position: absolute;
+    vertical-align: middle;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+  .server-status::before,
+  .server-status::after {
+    left: 0;
+    top: 50%;
+    margin-left: -1px;
+    margin-top: -6px;
+    position: absolute;
+    vertical-align: middle;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+  }
+  .server-status[type="up"],
+  .server-status[type="up"]::before,
+  .server-status[type="up"]::after {
+    background: #2CA430;
+  }
+  .server-status[type="down"],
+  .server-status[type="down"]::before,
+  .server-status[type="down"]::after {
+    background: #2CA430;
+  }
+  .server-status[type="slow"],
+  .server-status[type="slow"]::before,
+  .server-status[type="slow"]::after {
+    background: #F1C40F;
+  }
+  
+  .server-status::before {
+    content: "";
+    animation: bounce 1.5s infinite;
+  }
+  .server-status::after {
+    content: "";
+    animation: bounce 1.5s -0.4s infinite;
+  }
+  
+  @keyframes bounce {
+    0% {
+      transform: scale(1);
+      -webkit-transform: scale(1);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(2);
+      -webkit-transform: scale(2);
+      opacity: 0;
+    }
+  }
+  
+  @-webkit-keyframes bounce {
+    0% {
+      transform: scale(1);
+      -webkit-transform: scale(1);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(2);
+      -webkit-transform: scale(2);
+      opacity: 0;
+    }
+  }

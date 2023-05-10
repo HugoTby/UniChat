@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src='https://meet.jit.si/external_api.js'></script>
+    <title>Document</title>
+</head>
+Connexion etablished
+<div id="meet">
+
+</div>
+<body>
+    <script>
+
+        const domain = 'meet.jit.si';
+        const options = {
+            roomName: 'BSTSN-123456',
+            width: 700,
+            height: 700,
+            parentNode: document.querySelector('#meet'),
+            lang: 'fr',
+            devices: {
+                audioInput: '<deviceLabel>',
+                audioOutput: '<deviceLabel>',
+                videoInput: '<deviceLabel>'
+            },
+            userInfo: {
+                email: 'email@jitsiexamplemail.com',
+                displayName: 'John Doe'
+            },
+        };
+        const api = new JitsiMeetExternalAPI(domain, options);
+    </script>
+</body>
+
+</html>
