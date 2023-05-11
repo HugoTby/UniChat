@@ -40,6 +40,7 @@ if (!array_key_exists($ip, $blacklist) || strpos($ip, '192.168.') === 0) {
       <link rel="stylesheet" href="css/topbar.css">
       <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap" rel="stylesheet">
       <script src='https://meet.jit.si/external_api.js'></script>
+      <link rel="stylesheet" href="css/style.min.css">
     </head>
     <div class="mainApp">
       <div class="topBar">
@@ -54,7 +55,7 @@ if (!array_key_exists($ip, $blacklist) || strpos($ip, '192.168.') === 0) {
               <span style="font-size: 20px;">UniChat</span>&nbsp;&nbsp;
               <span style="font-size: 11px;">Version <strong><?php echo $row['version'] ?></strong></span>&nbsp;&nbsp;
               <span style="font-size: 11px;">Auteur : <u><?php echo $row['auteur'] ?></u> - BTS SN1 2022-2023 &copy;</span>
-              <span style="padding-left: 30px;" >Statut du serveur : &nbsp;<span class="server-status" type="down"></span></span>
+              <span style="padding-left: 30px;">Statut du serveur : &nbsp;<span class="server-status" type="down"></span></span>
             <?php } ?>
           </div>
         </div>
@@ -92,12 +93,15 @@ if (!array_key_exists($ip, $blacklist) || strpos($ip, '192.168.') === 0) {
         </div>
         <div class="contentPages">
 
-          <div id="div1" class="visible">
+          <div id="div1" class="hidden">
             <div style="width: 100%;height: 92vh" id="meet"></div>
           </div>
-          <div id="div2" class="hidden">
+          <div id="div2" class="visible">
             <?php
 
+            $bdd = $pdo;
+            $errmsg = 0;
+            // & pseudo a remplacer par la session
             if (isset($_POST['valider'])) {
               if (!empty($_POST['pseudo']) and !empty($_POST['message'])) {
                 $pseudo = htmlspecialchars($_POST['pseudo'], ENT_QUOTES);
@@ -106,28 +110,56 @@ if (!array_key_exists($ip, $blacklist) || strpos($ip, '192.168.') === 0) {
                 $insertMsg = $bdd->prepare("INSERT INTO `messages` (`pseudo`, `message`) VALUES(?, ?)");
                 $insertMsg->execute(array($pseudo, $message));
               } else {
-                echo 'Veuillez compléter tous les champs [!]';
+                $errmsg = 1;
               }
             }
 
             ?>
             <form id="form1" method="post" align="center">
-              <input type="text" name="pseudo" />
-              <br><br>
-              <textarea name="message"></textarea>
-              <br><br>
-              <input type="submit" name="valider" value="Confirmer" />
+              <!--<input type="text" name="pseudo" />
+              <br><br>-->
+              <div class="input-container">
+                <input id="submitmsg" type="text" name="message" placeholder="&nbsp;&nbsp;Saisissez un message ..." />
+                <?php if ($errmsg === 1) {
+                  echo "<span id='error-message' style='color:red'>Veuillez compléter tous<br> les champs pour envoyer [!]</span>";
+                } ?>
+                <input type="submit" name="valider" value="Envoyer" />
+              </div>
             </form>
             <section id="messages">
 
             </section>
-
+            <!-- Code JavaScript -->
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
             <script>
-              setInterval('load_messages()', 500);
+              // scrollToBottom();
+              function scrollToBottom() {
+                var messagesContainer = document.getElementById("messages");
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+              }
+
+              // Faire défiler jusqu'en bas au chargement de la page
+              window.onload = function() {
+                scrollToBottom();
+              }
+            </script>
+            <script>
+              setInterval(load_messages, 1000);
 
               function load_messages() {
                 $('#messages').load('messages.php');
+                scrollToBottom();
               }
+            </script>
+
+            <script>
+              // ! message d'erreur
+              setTimeout(function() {
+                var errorMessage = document.getElementById('error-message');
+                if (errorMessage) {
+                  errorMessage.remove();
+                }
+              }, 10000);
             </script>
           </div>
 

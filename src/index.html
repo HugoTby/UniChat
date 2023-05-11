@@ -1,135 +1,243 @@
-<!DOCTYPE html>
-<html lang="en">
+<?php
+include("black_list.php");
 
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="css/style.css">
-  <title>UniChat - Version 1.7.4+20230507.1452 [DESKTOP]</title>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script defer src="js/topbar.js"></script>
-  <link rel="stylesheet" href="css/topbar.css">
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap" rel="stylesheet">
-  <script src='https://meet.jit.si/external_api.js'></script>
-</head>
-<div class="mainApp">
-  <div class="topBar">
-    <div class="titleBar">
-      <button id="showHideMenus" class="toggleButton"></button>
-      <a href="https://github.com/HugoTby/UniChat/releases/tag/v1.0.0" target="_blank"><img
-          style="padding-left:15px;height: 35px;" src="icons/icon_top_bar.png" alt="GitHub"></a>
-      <a href="https://la-providence.net" target="_blank"><img
-          style="padding-left:15px;padding-right:15px;height: 35px;" src="icons/icon_top_bar2.png"
-          alt="La Providence"></a>
-      <div class="title">
-        title
-      </div>
-    </div>
-    <div class="titleBarBtns">
-      <button id="minimizeBtn" class="topBtn minimizeBtn" title="Minimize"></button>
-      <button id="maximizeBtn" class="topBtn maximizeBtn" title="Maximize"></button>
-      <button id="closeBtn" class="topBtn closeBtn" title="Close"></button>
-    </div>
-  </div>
-  <div class="contentArea">
-    <div id="mySidebar" class="leftMenu">
-      <h1>Bienvenue !</h1>
+// Récupérer l'adresse IP de l'utilisateur
+$ip = $_SERVER['REMOTE_ADDR'];
 
-      <div class="footerButtons">
-        <button id="button1">
-          Partage Écran
-        </button>
-        <button id="button2">
-          Chat en direct
-        </button>
-      </div>
-      <h1 style="font-size: 10px;bottom: 37; text-align: center;"><mark
-          style="background-color:yellow;border-radius:3px">IP CLIENT : <strong></strong></mark></h1>
-      <h1 style="font-size: 26px;text-align:center;">PRE-ALPHA</h1>
-    </div>
-    <div class="contentPages">
+if (!array_key_exists($ip, $blacklist) || strpos($ip, '192.168.') === 0) {
 
-      <div id="div1" class="visible">
-        <div style="width: 100%;height: 92vh" id="meet"></div>
+
+
+  try {
+
+    $pdo = new PDO('mysql:host=192.168.65.92;dbname=unichat', 'UniChatUser', 'r668yMm98FgRtX'); // VM 192.168.65.92 ONLY
+    //$pdo = new PDO('mysql:host=127.0.0.1;dbname=unichat', 'UniChatUser', 'r668yMm98FgRtX'); // WAMP or XXAMP ONLY
+
+    //// & Requetes ////
+
+    //~ Préparation et exécution de la requête SQL
+    $header = "SELECT * FROM header";
+    $header_request = $pdo->query($header);
+    //~ Récupération des résultats
+    $header_result = $header_request->fetchAll(PDO::FETCH_ASSOC);
+
+
+
+
+?>
+
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link rel="stylesheet" href="css/style.css">
+      <title>UniChat - Version 1.7.4+20230507.1452 [DESKTOP]</title>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+      <script defer src="js/topbar.js"></script>
+      <link rel="stylesheet" href="css/topbar.css">
+      <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap" rel="stylesheet">
+      <script src='https://meet.jit.si/external_api.js'></script>
+      <link rel="stylesheet" href="css/style.min.css">
+    </head>
+    <div class="mainApp">
+      <div class="topBar">
+        <div class="titleBar">
+          <button id="showHideMenus" class="toggleButton"></button>
+          <a href="https://github.com/HugoTby/UniChat/releases/tag/v1.0.0" target="_blank"><img style="padding-left:15px;height: 35px;" src="icons/icon_top_bar.png" alt="GitHub"></a>
+          <a href="https://la-providence.net" target="_blank"><img style="padding-left:15px;padding-right:15px;height: 35px;" src="icons/icon_top_bar2.png" alt="La Providence"></a>
+          <div class="title">
+            <?php
+            foreach ($header_result as $row) {
+            ?>
+              <span style="font-size: 20px;">UniChat</span>&nbsp;&nbsp;
+              <span style="font-size: 11px;">Version <strong><?php echo $row['version'] ?></strong></span>&nbsp;&nbsp;
+              <span style="font-size: 11px;">Auteur : <u><?php echo $row['auteur'] ?></u> - BTS SN1 2022-2023 &copy;</span>
+              <span style="padding-left: 30px;">Statut du serveur : &nbsp;<span class="server-status" type="down"></span></span>
+            <?php } ?>
+          </div>
+        </div>
+        <div class="titleBarBtns">
+          <button id="minimizeBtn" class="topBtn minimizeBtn" title="Minimize"></button>
+          <button id="maximizeBtn" class="topBtn maximizeBtn" title="Maximize"></button>
+          <button id="closeBtn" class="topBtn closeBtn" title="Close"></button>
+        </div>
       </div>
-      <div id="div2" class="hidden">
+      <div class="contentArea">
+        <div id="mySidebar" class="leftMenu">
+          <h1>Bienvenue !</h1>
+          <?php echo "<span style='color:green'>Ceci est un texte en php !</span>";
+          // Préparation et exécution de la requête SQL
+          $sql = "SELECT * FROM development_tests";
+          $stmt = $pdo->query($sql);
+
+          // Récupération des résultats
+          $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+          // Affichage des résultats
+          foreach ($results as $row) {
+            echo "<br><br><span style='color:green;' >" . $row['result'] . "</span>";
+          } ?>
+          <div class="footerButtons">
+            <button id="button1">
+              Partage Écran
+            </button>
+            <button id="button2">
+              Chat en direct
+            </button>
+          </div>
+          <h1 style="font-size: 10px;bottom: 37; text-align: center;"><mark style="background-color:yellow;border-radius:3px">IP CLIENT : <strong><?php echo $_SERVER['REMOTE_ADDR']; ?></strong></mark></h1>
+          <h1 style="font-size: 26px;text-align:center;">PRE-ALPHA</h1>
+        </div>
+        <div class="contentPages">
+
+          <div id="div1" class="hidden">
+            <div style="width: 100%;height: 92vh" id="meet"></div>
+          </div>
+          <div id="div2" class="visible">
+            <?php
+
+            $bdd = $pdo;
+            // & pseudo a remplacer par la session
+            if (isset($_POST['valider'])) {
+              if (!empty($_POST['pseudo']) and !empty($_POST['message'])) {
+                $pseudo = htmlspecialchars($_POST['pseudo'], ENT_QUOTES);
+                $message = nl2br(htmlspecialchars(($_POST['message']), ENT_QUOTES));
+
+                $insertMsg = $bdd->prepare("INSERT INTO `messages` (`pseudo`, `message`) VALUES(?, ?)");
+                $insertMsg->execute(array($pseudo, $message));
+              } else {
+                echo 'Veuillez compléter tous les champs [!]';
+              }
+            }
+
+            ?>
+            <form id="form1" method="post" align="center">
+              <!--<input type="text" name="pseudo" />
+              <br><br>-->
+              <div class="input-container">
+                <input id="submitmsg" type="text" name="message" placeholder="&nbsp;&nbsp;Saisissez un message ..." />
+                <input type="submit" name="valider" value="Confirmer" />
+              </div>
+            </form>
+            <section id="messages">
+
+            </section>
+            <!-- Code JavaScript -->
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+            <script>
+              setInterval(load_messages, 500);
+
+              function load_messages() {
+                $('#messages').load('messages.php');
+              }
+            </script>
+          </div>
+
+          <script>
+            document.getElementById("button1").addEventListener("click", function() {
+              document.getElementById("div1").classList.add("visible");
+              document.getElementById("div1").classList.remove("hidden");
+              document.getElementById("div2").classList.add("hidden");
+              document.getElementById("div2").classList.remove("visible");
+            });
+
+            document.getElementById("button2").addEventListener("click", function() {
+              document.getElementById("div1").classList.add("hidden");
+              document.getElementById("div1").classList.remove("visible");
+              document.getElementById("div2").classList.add("visible");
+              document.getElementById("div2").classList.remove("hidden");
+            });
+          </script>
+        </div>
       </div>
+
 
       <script>
-        document.getElementById("button1").addEventListener("click", function () {
-          document.getElementById("div1").classList.add("visible");
-          document.getElementById("div1").classList.remove("hidden");
-          document.getElementById("div2").classList.add("hidden");
-          document.getElementById("div2").classList.remove("visible");
-        });
+        const domain = 'meet.jit.si';
+        const options = {
+          //roomName: 'UniChat-Server-343',
+          roomName: 'Test02',
+          parentNode: document.querySelector('#meet'),
+          lang: 'fr',
+          devices: {
+            audioInput: '<deviceLabel>',
+            audioOutput: '<deviceLabel>',
+            videoInput: '<deviceLabel>'
+          },
+          userInfo: {
+            email: 'email@la-providence.net',
+            displayName: 'UniChat User'
+          },
+          configOverwrite: {
+            disableNotifications: true,
+            disableModeratorControls: {
+              mute: true,
+              destroy: true,
+              videoMute: true,
+              participantActions: true,
+            },
+            disableKick: true,
+            toolbarButtons: [
+              'desktop', 'fullscreen',
+              'fodeviceselection', 'hangup', 'raisehand',
+              'tileview', 'videobackgroundblur', 'help',
+            ],
+            desktopSharing: 'allow',
+            disableRemoteMute: true,
+            disableAudioLevels: true,
+            disableRemoteControl: true,
+            disablePrivateChat: true,
+          },
+        };
 
-        document.getElementById("button2").addEventListener("click", function () {
-          document.getElementById("div1").classList.add("hidden");
-          document.getElementById("div1").classList.remove("visible");
-          document.getElementById("div2").classList.add("visible");
-          document.getElementById("div2").classList.remove("hidden");
-        });
+        const api = new JitsiMeetExternalAPI(domain, options);
+
+        // bloquer le microphone
+        api.executeCommand('toggleAudio', false);
+
+        // bloquer la caméra
+        api.executeCommand('videoInput', false);
       </script>
-    </div>
-  </div>
 
 
-  <script>
-    const domain = 'meet.jit.si';
-    const options = {
-      //roomName: 'UniChat-Server-343',
-      roomName: 'Test02',
-      parentNode: document.querySelector('#meet'),
-      lang: 'fr',
-      devices: {
-        audioInput: '<deviceLabel>',
-        audioOutput: '<deviceLabel>',
-        videoInput: '<deviceLabel>'
-      },
-      userInfo: {
-        email: 'email@la-providence.net',
-        displayName: 'UniChat User'
-      },
-      configOverwrite: {
-        disableNotifications: true,
-        disableModeratorControls: {
-          mute: true,
-          destroy: true,
-          videoMute: true,
-          participantActions: true,
-        },
-        disableKick: true,
-        toolbarButtons: [
-          'desktop', 'fullscreen',
-          'fodeviceselection', 'hangup', 'raisehand',
-          'tileview', 'videobackgroundblur', 'help',
-        ],
-        desktopSharing: 'allow',
-        disableRemoteMute: true,
-        disableAudioLevels: true,
-        disableRemoteControl: true,
-        disablePrivateChat: true,
-      },
-    };
+      <script>
+        setTimeout(() => {
+          console.log("%c Attends ! ", "color:#fff; background-color: rgb(25,25,50); padding:24px;font-weight:bold;font-size:5em; border-radius:5px");
+          console.log("%c Si quelqu'un t'a dit de copier/coller quelque chose ici, il y a à peu près 11 chances sur 10 que ce soit une arnaque. ", "color:#fff;font-weight:bold;font-size:1.5em; ");
+          console.log("%c Coller quelque chose ici pourrait donner aux assaillants accès à ton compte UniChat. ", "color:red;font-weight:bold;font-size:1.5em; ");
+        }, 5000);
+      </script>
+      </body>
 
-    const api = new JitsiMeetExternalAPI(domain, options);
-
-    // bloquer le microphone
-    api.executeCommand('toggleAudio', false);
-
-    // bloquer la caméra
-    api.executeCommand('videoInput', false);
-  </script>
+    </html>
 
 
-  <script>
-    setTimeout(() => {
-      console.log("%c Attends ! ", "color:#fff; background-color: rgb(25,25,50); padding:24px;font-weight:bold;font-size:5em; border-radius:5px");
-      console.log("%c Si quelqu'un t'a dit de copier/coller quelque chose ici, il y a à peu près 11 chances sur 10 que ce soit une arnaque. ", "color:#fff;font-weight:bold;font-size:1.5em; ");
-      console.log("%c Coller quelque chose ici pourrait donner aux assaillants accès à ton compte UniChat. ", "color:red;font-weight:bold;font-size:1.5em; ");
-    }, 5000);
-  </script>
-  </body>
+<?php
 
-</html>
+
+
+  } catch (Exception $error) {
+    echo "<img style='padding-top:15px;width:300px;padding-left:38%'src='https://pngimg.com/d/attention_PNG33.png'></img><div style='text-align:center;padding-top:10%'><h1 style='color:red; font-size:15px'><br>ERREUR D'EXECUTION, le code renvoi l'erreur : " . $error->getMessage() . "</h1><br>";
+    echo "<span style='font-size:22px;color: red' ><u>Impossible de charger l'application. Veuillez réessayer plus tard.</u><br>ALT+F4 pour quitter.</span></div>";
+  }
+} else {
+  $ip_adress_list = $blacklist[$ip];
+  echo "
+  
+  <style>
+  .center {text-align:center;display: flex;justify-content: center;align-items: center;height: 90vh;overflow-y: hidden;}
+  .error {background: rgba(255, 0, 0, 0.4);padding: 10px;border-radius: 5px;text-align:center;}
+  </style>
+  <div class='center'>
+  <div class='error'>
+  Désolé, le serveur d'UniChat à renvoyé l'erreur <strong>**Accès refusé**</strong> à la ressource voulue<br><br>
+  Votre adresse IP est : <strong>" . $ip . "</strong> et elle correspond à : &nbsp; <strong><mark style='border-radius:2px;padding:2px'>" . $ip_adress_list . "</mark></strong><br><br>
+  Si cette erreur apparaît, il est probable que votre adresse IP ait été mise sur liste noire par les développeurs de ce site, ou qu'elle soit incompatible avec l'utilisation du site.<br><br>
+  Pour corriger cette erreur, veuillez contacter un administrateur de site ou votre administrateur de réseau.
+  </div></div>";
+}
+
+?>

@@ -1,0 +1,129 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+
+#messages,
+form {
+    display: flex;
+    margin-top: 20px
+}
+
+body {
+    background-color: #252829
+}
+
+form {
+    flex-direction: column;
+    align-items: center
+}
+
+/*input[type=text],
+textarea {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 0 5px gray;
+    margin-bottom: 10px;
+    width: 300px;
+    font-size: 18px;
+    background-color: #454a4d
+}
+*/
+/*input[type=submit] {
+    background-color: #0084ff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px
+}
+
+input[type=submit]:hover {
+
+    background-color: #06c
+}*/
+input[type=submit]{
+    width: 200px;
+    height: 40px;
+    border: none;
+    outline: none;
+    background: #2f2f2f;
+    color: #fff;
+    font-size: 22px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 6px 20px -5px rgba(0,0,0,0.4);
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+#messages {
+    flex-direction: column;
+    align-items: center;
+    overflow-y: scroll;
+    max-height: 80vh;
+    overflow: auto;
+  scrollbar-width: none; /* Masque la barre de défilement pour les navigateurs récents */
+  -ms-overflow-style: none; /* Masque la barre de défilement pour Internet Explorer et Microsoft Edge */
+}
+#messages::-webkit-scrollbar {
+    display: none;
+  }
+.message {
+    background: rgba(0, 0, 0, 0.4);
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, .1);
+    padding: 10px;
+    margin-bottom: 10px;
+    text-align: left;
+    width: 70%;
+}
+
+.message h4 {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 5px
+}
+
+.message p {
+    font-size: 14px;
+    margin-top: 0;
+    line-height: 1.5
+}
+
+.message:last-child {
+    margin-bottom: 0
+}
+
+/*.message:nth-child(2n) {
+    background-color: #454a4d
+}*/
+
+.message img {
+    max-width: 100%;
+    margin-top: 10px;
+    border-radius: 5px
+}
+
+
+#submitmsg{
+    color: #fff;
+    background: rgba(0, 0, 0, 0.4);
+    border: none;
+    border-radius: 10px;
+    height: 40px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, .1);
+    width:70%;
+}
+.input-container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.input-container input {
+    margin-right: 10px;
+    margin-left: 10px;
+}

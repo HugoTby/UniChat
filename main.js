@@ -55,7 +55,7 @@ function createWindow () {
     })
 
   // and load the index.html of the app.
-  mainWindow.loadURL('http://'+server.host+':'+server.port+'/src/login/connexion.html')
+  mainWindow.loadURL('http://'+server.host+':'+server.port+'/src/index.php')
   mainWindow.setBackgroundColor('#343B48')
 
 /*
@@ -83,17 +83,17 @@ mainWindow.loadURL(url.format({
 
   //// MINIMIZE APP
     ipc.on('minimizeApp', () =>{
-        console.log('Clicked on Minimize Btn')
+        console.log('$$$$$$$$$$$$$$$$$$$$$$$$$--- Clicked on Minimize Btn ---$$$$$$$$$$$$$$$$$$$$$$$$$')
         mainWindow.minimize()
     })
 
     //// MAXIMISE RESTORE APP
     ipc.on('maximizeRestoreApp', () =>{
         if (mainWindow.isMaximized()) {
-            console.log('Clicked on Restore')
+            console.log('$$$$$$$$$$$$$$$$$$$$$$$$$--- Clicked on Restore      ---$$$$$$$$$$$$$$$$$$$$$$$$$')
             mainWindow.restore()
         } else {
-            console.log('Clicked on Maximize')
+            console.log('$$$$$$$$$$$$$$$$$$$$$$$$$--- Clicked on Maximize     ---$$$$$$$$$$$$$$$$$$$$$$$$$')
             mainWindow.maximize()
         }
     })
@@ -108,7 +108,7 @@ mainWindow.loadURL(url.format({
 
     //// CLOSE APP
     ipc.on('closeApp', () =>{
-        console.log('Clicked on Close Btn')
+        console.log('$$$$$$$$$$$$$$$$$$$$$$$$$--- Clicked on Close Btn    ---$$$$$$$$$$$$$$$$$$$$$$$$$')
         mainWindow.close()
     })
 }
