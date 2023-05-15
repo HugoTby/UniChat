@@ -1,111 +1,107 @@
-.flex-container {
-    height: 100vh;
-    width: 100vw;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  
-  .card{  
-    display: flex;
-    flex-direction: column;
-    box-sizing: border-box; 
-    background-color: #2C313C;
-    width: 350px;
-    
-    padding: 20px 45px 20px 45px;
-    box-shadow: 6px 6px 7px rgba(145, 179, 242, .7);
-    border: 2px solid rgba(145, 179, 242, .1);
-    border-radius: 20px;
-    margin-bottom: 200px;
-    margin-top: 200px;
-  }
-  
-  
-  .log-in {  
-    display: flex;
-    justify-content: center;
-    font-size: 24px;
-    font-weight: 500;
-    text-transform: uppercase;
-    margin: 0 0 20px;  
-  }
-  
-  
-  .input-element {
-    background: #FFF; 
-    border: 1px solid #dddfe2;
-    border-radius: 10px;
-    color: #1d2129;
-    font-family: Helvetica, Arial, sans-serif;
-    font-size: 12px;
-    height: 22px;
-    line-height: 16px;
-    padding: 0 8px;
-    margin-bottom: 10px;
-  }
-  
-  
-  .inpt-elmnt-txt {  
-    color: rgb(163, 200, 237);
-    font-family: sans-serif;
-    font-size: 10px;
-    display: flex;
-    justify-content: center;
-    margin: auto;
-  }
-  
-  
-  .input-button {  
-    background: #FFF; 
-    border: 1px solid #dddfe2;
-    border-radius: 10px;
-    color: #1d2129;
-    font-family: Helvetica, Arial, sans-serif;
-    font-size: 12px;
-    height: 22px;
-    line-height: 16px;
-    padding: 0 8px;
-  }
-  
-  .hvr1{
-    background-color: #343B48;
-  }
-  .hvr1:hover { 
-    background: #1B1D23;
-  }
-  
-  
-  .hvr2:hover {  
-    color: RGB(0, 0, 0);
-  }
-  
-  
-  .clc1:active {
-    background: RGBA(215, 231, 247, 1); 
-  }
-  
-  
-  .clc2:active {  
-    color: RGBA(255, 255, 255, 1);
-  }
-  
-  .line{ 
-    display: flex;
-    justify-content: center;
-    border-bottom: 1px solid #dddfe2;
-    margin: 20px;
-  }
-  
-  
-  .-mgnt5 {
-    margin-top: 5px;
-  }
-  
-  
-  .-wdt80 {
-    width: 80px;
-  }
+:root {
+  --primary-color: #26d9ac;
+  --color-input-text: #b6b9c9;
+  --color-border: #33374d;
+  --bg-color: #0e101b;
+  --form-bg: #1b1f32;
+  --border-radius: 3px;
+}
+*:not(.topBar) {
+  margin: 0;
+  box-sizing: border-box;
+}
 
 
+/*html {
+  height: 100%;
+}*/
+body {
+  height: 100%;
+  background: var(--bg-color);
+  font-family: sans-serif;
+  display: grid;
+  place-items: center;
+}
+.login-form {
+  max-width: 420px;
+  width: 100%;
+  padding: 2rem;
+  background: var(--form-bg);
+  border-radius: calc(var(--border-radius) * 2);
+  margin-top: 10%;
+}
+.input-floating-label {
+  position: relative;
+  margin-bottom: 24px;
+  width: 100%;
+}
+.input-floating-label .input {
+  font-family: inherit;
+  width: 100%;
+  display: block;
+  border: 0;
+  border: 2px solid var(--color-border);
+  border-radius: var(--border-radius);
+  outline: 0;
+  font-size: 1rem;
+  color: var(--color-input-text);
+  padding: 18px 12px;
+  background: transparent;
+  transition: border-color 0.2s;
+}
+.input-floating-label .input:required, .input-floating-label .input:invalid {
+  box-shadow: none;
+}
+.input-floating-label .input::placeholder {
+  color: transparent;
+}
+.input-floating-label .input:placeholder-shown {
+  border-color: var(--color-border);
+}
+.input-floating-label .input:placeholder-shown ~ label {
+  font-size: 1rem;
+  cursor: text;
+  transform: translatey(19px);
+  padding: 0px 0px;
+  color: #b6b9c9;
+}
+.input-floating-label label {
+  position: absolute;
+  left: 12px;
+  display: block;
+  transform: translatey(-7px);
+  transition: 0.3s;
+  font-size: 0.75rem;
+  padding: 0px 8px;
+  color: #b6b9c9;
+  background: var(--form-bg);
+  top: 0;
+}
+.input-floating-label .input:focus {
+  border-color: var(--primary-color);
+}
+.input-floating-label .input:focus ~ label {
+  position: absolute;
+  transform: translatey(-7px);
+  color: var(--primary-color);
+  padding: 0px 8px;
+  font-size: 0.75rem;
+}
+.btn-submit {
+  padding: 12px 20px;
+  border-radius: var(--border-radius);
+  border: none;
+  background: var(--primary-color);
+  font-family: sans-serif;
+  font-size: 1rem;
+  line-height: 1;
+  transition: 0.2s;
+  cursor: pointer;
+  color: #080D17;
+}
+.btn-submit:focus {
+  box-shadow: 0px 0px 4px var(--primary-color);
+}
+.btn-submit:active {
+  transform: scale(1.04) translatey(2px);
+}

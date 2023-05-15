@@ -1,5 +1,10 @@
 <?php
 include("black_list.php");
+include("classes/User.php");
+
+// Démarre la session
+session_start();
+
 
 // Récupérer l'adresse IP de l'utilisateur
 $ip = $_SERVER['REMOTE_ADDR'];
@@ -8,10 +13,22 @@ if (!array_key_exists($ip, $blacklist) || strpos($ip, '192.168.') === 0) {
 
 
 
+
+
   try {
 
-    $pdo = new PDO('mysql:host=192.168.65.92;dbname=unichat', 'UniChatUser', 'r668yMm98FgRtX'); // VM 192.168.65.92 ONLY
+    //$pdo = new PDO('mysql:host=192.168.65.92;dbname=unichat', 'UniChatUser', 'r668yMm98FgRtX'); // VM 192.168.65.92 ONLY
+    $pdo = new PDO('mysql:host=192.168.1.26;dbname=unichat', 'UniChatUser', 'r668yMm98FgRtX'); // VM 192.168.1.26 ONLY
     //$pdo = new PDO('mysql:host=127.0.0.1;dbname=unichat', 'UniChatUser', 'r668yMm98FgRtX'); // WAMP or XXAMP ONLY
+
+
+    $User1 = new user(null, null, null);
+    $id = $_SESSION['id'];
+    $User1->getUserById($id);
+
+    if (!$User1->isConnect()) {
+      header("Location: login/connexion.php");
+    }
 
     //// & Requetes ////
 
@@ -22,6 +39,11 @@ if (!array_key_exists($ip, $blacklist) || strpos($ip, '192.168.') === 0) {
     $header_result = $header_request->fetchAll(PDO::FETCH_ASSOC);
 
 
+    if (isset($_POST["deco"])) {
+      session_unset();
+      session_destroy();
+      header("Location: login/connexion.php");
+    }
 
 
 ?>
@@ -38,16 +60,40 @@ if (!array_key_exists($ip, $blacklist) || strpos($ip, '192.168.') === 0) {
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
       <script defer src="js/topbar.js"></script>
       <link rel="stylesheet" href="css/topbar.css">
+      <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
+      <meta name="udacity-grader" content="tests.json">
       <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap" rel="stylesheet">
+      <link href='https://unpkg.com/css.gg@2.0.0/icons/css/info.css' rel='stylesheet'>
+      <link href='https://unpkg.com/css.gg@2.0.0/icons/css/log-out.css' rel='stylesheet'>
       <script src='https://meet.jit.si/external_api.js'></script>
       <link rel="stylesheet" href="css/style.min.css">
+      <script>
+        var clickCount = 0;
+        var lastClickTime = 0;
+
+        function handleClick() {
+          var currentTime = new Date().getTime();
+
+          if (clickCount === 0 || (currentTime - lastClickTime <= 10000)) {
+            clickCount++;
+            lastClickTime = currentTime;
+
+            if (clickCount === 5) {
+              window.location.href = "admin/index.php"; // Remplacez cette URL par votre URL de destination
+            }
+          } else {
+            clickCount = 0;
+            lastClickTime = 0;
+          }
+        }
+      </script>
     </head>
     <div class="mainApp">
       <div class="topBar">
         <div class="titleBar">
-          <button id="showHideMenus" class="toggleButton"></button>
-          <a href="https://github.com/HugoTby/UniChat/releases/tag/v1.0.0" target="_blank"><img style="padding-left:15px;height: 35px;" src="icons/icon_top_bar.png" alt="GitHub"></a>
-          <a href="https://la-providence.net" target="_blank"><img style="padding-left:15px;padding-right:15px;height: 35px;" src="icons/icon_top_bar2.png" alt="La Providence"></a>
+          <button id="showHideMenus" class="toggleButton" onclick="handleClick()"></button>
+          <a onclick="openExternalLink('https://github.com/HugoTby/UniChat/releases/tag/v1.0.0')"><img style="padding-left:15px;height: 35px;" src="icons/icon_top_bar.png" alt="GitHub"></a>
+          <a onclick="openExternalLink('https://la-providence.net')"><img style="padding-left:15px;padding-right:15px;height: 35px;" src="icons/icon_top_bar2.png" alt="La Providence"></a>
           <div class="title">
             <?php
             foreach ($header_result as $row) {
@@ -55,7 +101,7 @@ if (!array_key_exists($ip, $blacklist) || strpos($ip, '192.168.') === 0) {
               <span style="font-size: 20px;">UniChat</span>&nbsp;&nbsp;
               <span style="font-size: 11px;">Version <strong><?php echo $row['version'] ?></strong></span>&nbsp;&nbsp;
               <span style="font-size: 11px;">Auteur : <u><?php echo $row['auteur'] ?></u> - BTS SN1 2022-2023 &copy;</span>
-              <span style="padding-left: 30px;">Statut du serveur : &nbsp;<span class="server-status" type="down"></span></span>
+              <span style="padding-left: 30px;">Statut du serveur : &nbsp;<?php echo $row['statut'] ?></span>
             <?php } ?>
           </div>
         </div>
@@ -67,8 +113,10 @@ if (!array_key_exists($ip, $blacklist) || strpos($ip, '192.168.') === 0) {
       </div>
       <div class="contentArea">
         <div id="mySidebar" class="leftMenu">
-          <h1>Bienvenue !</h1>
-          <?php echo "<span style='color:green'>Ceci est un texte en php !</span>";
+          <span style="text-align: center;">
+            <h1 style="font-size:18px">Bienvenue, <?php $User1->getPseudo(); ?>!</h1>
+          </span>
+          <?php /* echo "<span style='color:green'>Ceci est un texte en php !</span>";
           // Préparation et exécution de la requête SQL
           $sql = "SELECT * FROM development_tests";
           $stmt = $pdo->query($sql);
@@ -79,17 +127,32 @@ if (!array_key_exists($ip, $blacklist) || strpos($ip, '192.168.') === 0) {
           // Affichage des résultats
           foreach ($results as $row) {
             echo "<br><br><span style='color:green;' >" . $row['result'] . "</span>";
-          } ?>
+          } */ ?>
           <div class="footerButtons">
             <button id="button1">
-              Partage Écran
+              Salon vocal
             </button>
             <button id="button2">
-              Chat en direct
+              Salon textuel
             </button>
           </div>
-          <h1 style="font-size: 10px;bottom: 37; text-align: center;"><mark style="background-color:yellow;border-radius:3px">IP CLIENT : <strong><?php echo $_SERVER['REMOTE_ADDR']; ?></strong></mark></h1>
-          <h1 style="font-size: 26px;text-align:center;">PRE-ALPHA</h1>
+          <div class="footerButtons" style="padding-top: 10px;" >
+            <button id="button3" onclick="location.href='status/index.php';" >
+              Statut du serveur
+            </button>
+          </div>
+          <div style="position: absolute;bottom:0;width:220px;padding-bottom:15px">
+            <h1 style="font-size: 10px;padding-top:3px;bottom: 37; text-align: center;"><mark style="background-color:#343B48;color:#949AA7;border-radius:3px;padding:3px;">IP CLIENT : <strong><?php echo $_SERVER['REMOTE_ADDR']; ?></strong></mark></h1>
+            <h1 style="font-size: 10px;padding-top:3px;text-align: center;"><mark style="background-color:#343B48;color:#949AA7;border-radius:3px;padding:3px;"><strong><?php $User1->getToken(); ?></strong></mark></h1>
+            <!--<h1 style="font-size: 26px;text-align:center;">PRE-ALPHA</h1>-->
+
+
+            <form method="post">
+              <input type="submit" name="deco" id="deco" style="display:none">
+              <label for="deco"><i class="gg-log-out" style="color:red;cursor:pointer;"></i></label>
+              Se déconnecter
+            </form>
+          </div>
         </div>
         <div class="contentPages">
 
@@ -103,11 +166,12 @@ if (!array_key_exists($ip, $blacklist) || strpos($ip, '192.168.') === 0) {
             $errmsg = 0;
             // & pseudo a remplacer par la session
             if (isset($_POST['valider'])) {
-              if (!empty($_POST['pseudo']) and !empty($_POST['message'])) {
-                $pseudo = htmlspecialchars($_POST['pseudo'], ENT_QUOTES);
+              if (!empty($_POST['message'])) {
+                //$pseudo = htmlspecialchars($_POST['pseudo'], ENT_QUOTES);
+                $pseudo = $User1->getLogin();
                 $message = nl2br(htmlspecialchars(($_POST['message']), ENT_QUOTES));
 
-                $insertMsg = $bdd->prepare("INSERT INTO `messages` (`pseudo`, `message`) VALUES(?, ?)");
+                $insertMsg = $pdo->prepare("INSERT INTO `messages` (`pseudo`, `message`) VALUES(?, ?)");
                 $insertMsg->execute(array($pseudo, $message));
               } else {
                 $errmsg = 1;
@@ -132,17 +196,19 @@ if (!array_key_exists($ip, $blacklist) || strpos($ip, '192.168.') === 0) {
             <!-- Code JavaScript -->
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
             <script>
-              // scrollToBottom();
               function scrollToBottom() {
                 var messagesContainer = document.getElementById("messages");
-                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                $(messagesContainer).animate({
+                  scrollTop: messagesContainer.scrollHeight
+                }, 1000);
               }
 
               // Faire défiler jusqu'en bas au chargement de la page
-              window.onload = function() {
+              $(window).on("load", function() {
                 scrollToBottom();
-              }
+              });
             </script>
+
             <script>
               setInterval(load_messages, 1000);
 
@@ -178,6 +244,15 @@ if (!array_key_exists($ip, $blacklist) || strpos($ip, '192.168.') === 0) {
               document.getElementById("div2").classList.remove("hidden");
             });
           </script>
+          <script>
+            const {
+              shell
+            } = require('electron');
+
+            function openExternalLink(url) {
+              shell.openExternal(url);
+            }
+          </script>
         </div>
       </div>
 
@@ -185,8 +260,8 @@ if (!array_key_exists($ip, $blacklist) || strpos($ip, '192.168.') === 0) {
       <script>
         const domain = 'meet.jit.si';
         const options = {
-          //roomName: 'UniChat-Server-343',
-          roomName: 'Test02',
+          roomName: 'UniChat-Server-343',
+          //roomName: 'Test02',
           parentNode: document.querySelector('#meet'),
           lang: 'fr',
           devices: {

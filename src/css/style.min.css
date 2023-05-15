@@ -42,7 +42,7 @@ input[type=submit]:hover {
 
     background-color: #06c
 }*/
-input[type=submit]{
+.input-container input[type=submit]{
     width: 200px;
     height: 40px;
     border: none;
